@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { useState } from 'react'
 import Layout from '../Traffix3.O/Layout.jsx'
 import Dashboard from '../Traffix3.O/Pages/Dashboard.jsx'
 import Upload from '../Traffix3.O/Pages/Upload.jsx'
@@ -12,22 +12,27 @@ import FleetManagement from '../Traffix3.O/Pages/FleetManagement.jsx'
 import APIIntegration from '../Traffix3.O/Pages/APIIntegration.jsx'
 
 function App() {
+  const [currentPage, setCurrentPage] = useState('dashboard')
+
+  const renderPage = () => {
+    switch (currentPage) {
+      case 'dashboard': return <Dashboard />
+      case 'upload': return <Upload />
+      case 'profile': return <Profile />
+      case 'analytics': return <Analytics />
+      case 'rewards': return <Rewards />
+      case 'challenges': return <Challenges />
+      case 'leaderboard': return <Leaderboard />
+      case 'fleet': return <FleetManagement />
+      case 'api': return <APIIntegration />
+      default: return <Dashboard />
+    }
+  }
+
   return (
-    <Router>
-      <Layout>
-        <Routes>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/upload" element={<Upload />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/analytics" element={<Analytics />} />
-          <Route path="/rewards" element={<Rewards />} />
-          <Route path="/challenges" element={<Challenges />} />
-          <Route path="/leaderboard" element={<Leaderboard />} />
-          <Route path="/fleet" element={<FleetManagement />} />
-          <Route path="/api" element={<APIIntegration />} />
-        </Routes>
-      </Layout>
-    </Router>
+    <Layout currentPage={currentPage} setCurrentPage={setCurrentPage}>
+      {renderPage()}
+    </Layout>
   )
 }
 
